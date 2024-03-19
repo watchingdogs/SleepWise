@@ -8,7 +8,7 @@ This is a simple project of mine where I plugged a MAX7219 to an ESP8266 NodeMCU
 1. Buy the necessary hardware.
 2. Flash MicroPython onto your ESP8266.
 3. Install [mpremote](https://docs.micropython.org/en/latest/reference/mpremote.html) for REPL access and file operations.
-4. Clone my repository, edit `main.py` and transfer the python files to the device with `mpremote cp main.py :`
+4. Clone my repository, edit `main.py` and transfer the python files with `mpremote cp main.py :`
 5. Modify boot.py to include `import main`.
 6. [Connect the ESP8266 to your network](https://docs.micropython.org/en/latest/esp8266/quickref.html#networking), then assemble everything to observe it in action.
 
