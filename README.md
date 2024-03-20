@@ -1,6 +1,7 @@
 # SleepWise
 A clock that counts down until your bedtime, reminding you of the little time left.
 
+![Picture of the clock](image.jpg)
 # What's this? 
 This is a simple project of mine where I plugged a MAX7219 to an ESP8266 NodeMCU that has MicroPython on it. The [main.py](main.py) file should be edited to customize the counter to your needs. I have implemented [aiorepl](https://github.com/micropython/micropython-lib/blob/master/micropython/aiorepl/README.md) into the library for debugging. Sometimes it works, sometimes it does not. The script uses Central European Time.
 
