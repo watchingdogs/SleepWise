@@ -1,5 +1,6 @@
 from machine import Pin, SPI
 from max7219 import Matrix8x8
+import network
 import time
 import ntptime
 import cettime
@@ -8,6 +9,41 @@ import aiorepl
 
 # This is your configuration. Set the (hour, minute) you want in your countdown.
 displayorder = ((7,0), (21,45), (23,15))
+
+WIFI_NETWORKS = [
+    ("HOME_SSID", "HOME_PASSWORD"),      # Primary network
+    ("HOME2_SSID", "HOME2_PASSWORD"),    # Fallback 1
+    ("MOBILE_SSID", "MOBILE_PASSWORD")   # Fallback 2
+]
+
+# Initialize WiFi connection with multiple attempts
+def connect_wifi():
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    
+    if not wlan.isconnected():
+        print("Starting WiFi connection...")
+        for ssid, password in WIFI_NETWORKS:
+            print(f"Attempting {ssid}...")
+            wlan.connect(ssid, password)
+            
+            for _ in range(20):  # 10 second per network
+                if wlan.isconnected():
+                    print(f"Connected to {ssid}")
+                    print("IP:", wlan.ifconfig()[0])
+                    return wlan
+                time.sleep(0.5)
+                
+            print(f"Failed {ssid}")
+            wlan.disconnect()
+            time.sleep(1)
+
+        print("All networks failed!")
+        print("Continuing offline")
+        
+    return wlan
+
+wlan = connect_wifi()
 
 spi = SPI(1, baudrate=10000000, polarity=0, phase=0)
 display = Matrix8x8(spi, Pin(15), 4)
